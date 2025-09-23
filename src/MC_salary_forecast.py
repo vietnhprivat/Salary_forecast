@@ -24,11 +24,15 @@ def next_state(current_state, transition_matrix, stay_streak, decay =[0.05, 0.05
 def simulate(n, current_state, transition_matrix, decay):
     forecast = [current_state]
     stay_streak = 0
+    seniority = 1
     for _ in range(n):
         if current_state == 2:
             stay_streak += 1
         else:
             stay_streak = 0
+            seniority += 1
+            
+        # Update state
         current_state = next_state(current_state, transition_matrix, stay_streak, decay)
         forecast.append(int(current_state))
     return forecast
