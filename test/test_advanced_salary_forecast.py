@@ -20,21 +20,12 @@ def sample_transition_matrix():
     }
 
 @pytest.fixture
-def sample_growth_factors():
-    return {
-        "New_job": 1.20,
-        "Promotion": 1.10,
-        "Stay": 1.035
-    }
-
-@pytest.fixture
-def sample_career(sample_transition_matrix, sample_growth_factors):
+def sample_career(sample_transition_matrix):
     return CareerSimulator(
         initial_salary=45000,
         start_level=0,
         start_event=2,  # Stay
         transition_matrix=sample_transition_matrix,
-        growth_factors=sample_growth_factors,
         decay=[0.05, 0.05, -0.1]
     )
 

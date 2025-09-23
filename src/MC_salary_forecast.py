@@ -45,33 +45,34 @@ def plot_mean_std(x, mu, sigma):
     plt.grid()
     plt.show()
 
-# Define states and their probabilities
-states = ["New_job", "Promotion", "Stay"]
-salary_growth = [1.20, 1.1, 1.035]
+if __name__ == '__main__':
+    # Define states and their probabilities
+    states = ["New_job", "Promotion", "Stay"]
+    salary_growth = [1.20, 1.1, 1.035]
 
-# Define probabilities for next state in each state
-transition_matrix = np.array([
-    [0.025, 0.025, .95], # state 0 new job 
-    [0.10, 0.05, 0.85], # state 1 promotion
-    [0.10, 0.10, 0.8] # state 2 stay
-])
+    # Define probabilities for next state in each state
+    transition_matrix = np.array([
+        [0.025, 0.025, .95], # state 0 new job 
+        [0.10, 0.05, 0.85], # state 1 promotion
+        [0.10, 0.10, 0.8] # state 2 stay
+    ])
 
-# Simulate ten year salary projections N times
-N = 1000
-years = 10
-decay = [0.05, 0.05, -0.1]
-n_simulations = np.asarray([simulate(years, 0, transition_matrix, decay) for _ in range(N)])
+    # Simulate ten year salary projections N times
+    N = 1000
+    years = 10
+    decay = [0.05, 0.05, -0.1]
+    n_simulations = np.asarray([simulate(years, 0, transition_matrix, decay) for _ in range(N)])
 
-# Map to salary increase percentages
-initial_salary = 45_000
-growth_factors = np.array(salary_growth)[n_simulations]
-salary_trajectory = initial_salary * np.cumprod(growth_factors, axis=1)
+    # Map to salary increase percentages
+    initial_salary = 45_000
+    growth_factors = np.array(salary_growth)[n_simulations]
+    salary_trajectory = initial_salary * np.cumprod(growth_factors, axis=1)
 
-# Plotting
-mu = np.mean(salary_trajectory, axis=0)
-sigma = np.std(salary_trajectory, axis=0)
-x = range(years+1)
-plot_mean_std(x, mu, sigma)
+    # Plotting
+    mu = np.mean(salary_trajectory, axis=0)
+    sigma = np.std(salary_trajectory, axis=0)
+    x = range(years+1)
+    plot_mean_std(x, mu, sigma)
 
     
     
