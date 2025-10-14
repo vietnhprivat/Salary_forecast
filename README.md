@@ -2,63 +2,54 @@ Salary Forecast — Career trajectory and salary Monte Carlo simulation
 
 Overview
 
-This repository contains tools to simulate career progression and forecast salary trajectories using Monte Carlo simulation. The model simulates yearly career events (new job, promotion, stay) and uses event-based growth factors to build salary trajectories across many simulated career paths.
+This repository contains tools to simulate career progression and forecast salary trajectories using Monte Carlo simulation. The model simulates yearly career events such as new job, promotion, and stay, and it uses event-based growth factors to construct salary trajectories across many simulated career paths.
 
 Contents
 
-- src/
-  - Advanced_salary_forecast.py — Core simulation code (CareerSimulator, MC_simulation, salary_prediction)
-  - MC_salary_forecast.py — Helper plotting utilities used by the notebook (plot_mean_std)
-  - transition_probabilities.py — Transition matrices used by the simulator
-  - data_analysis.ipynb — Notebook with exploratory analysis and visualizations
+1. src/
+  1. Advanced_salary_forecast.py — Core simulation code (CareerSimulator, MC_simulation, salary_prediction)
+  2. MC_salary_forecast.py — Helper plotting utilities (plot_mean_std)
+  3. transition_probabilities.py — Transition matrices used by the simulator
 
-- test/
-  - test_advanced_salary_forecast.py — Unit tests for core simulation functionality
+2. test/
+  1. test_advanced_salary_forecast.py — Unit tests for core simulation functionality
 
 Quickstart
 
-1. Create and activate a virtual environment (recommended):
+1. Create and activate a virtual environment (recommended).
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+  ```bash
+  python -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
+  ```
 
-If you don't have a `requirements.txt`, install the main packages used:
+  If you do not have a `requirements.txt`, install the main packages used:
 
-```bash
-pip install numpy matplotlib pytest
-```
+  ```bash
+  pip install numpy matplotlib pytest
+  ```
 
-2. Run unit tests:
+2. Run unit tests.
 
-```bash
-pytest -q
-```
-
-3. Run the analysis notebook
-
-Open the notebook `src/data_analysis.ipynb` with Jupyter Lab or Notebook and run the cells. The notebook imports functions from `src/Advanced_salary_forecast.py` and performs Monte Carlo simulations and plotting.
+  ```bash
+  pytest -q
+  ```
 
 How it works
 
-- `CareerSimulator` models a single career. It stores yearly `event_history` and `level_history` and supports tenure-based adjustments to transition probabilities.
-- `MC_simulation` runs many `CareerSimulator` instances and returns arrays of event histories and seniority level histories.
-- `salary_prediction` converts event histories to random growth factors (sampled from distributions per event type), applies seniority-related constraints (steady, minimal growth after reaching max seniority), and returns simulated salary trajectories.
+1. `CareerSimulator` models a single career. It records yearly `event_history` and `level_history` and supports tenure-based adjustments to transition probabilities.
+2. `MC_simulation` runs many `CareerSimulator` instances and returns arrays of event histories and seniority level histories.
+3. `salary_prediction` converts event histories to sampled growth factors per event type, enforces a minimum growth, and caps post-max-seniority increases at 1% per year.
 
 Development notes
 
-- The notebook `src/data_analysis.ipynb` acts as the primary exploration interface and imports the simulation functions rather than redefining them inline.
-- Tests are kept in `test/` and use the project `src` package import style. Ensure the project root is in `PYTHONPATH` when running tests from an IDE.
+1. The analysis notebook was removed; simulation and plotting functions remain in the `src` package and are intended to be imported directly in scripts.
+2. Tests are located in `test/`. When running tests from an IDE, ensure the repository root is on `PYTHONPATH`.
 
 Contributing
 
-If you'd like to contribute:
-- Fork the repo
-- Create a feature branch
-- Add tests for new behavior
-- Open a pull request with a clear description of the change
+If you would like to contribute, fork the repository, create a feature branch, add tests for new behavior, and open a pull request with a clear description of the change.
 
 License
 
