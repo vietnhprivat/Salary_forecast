@@ -1,7 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-# Tue RF-learning kind of shit: 
 class CareerSimulator:
     def __init__(
         self, initial_salary, start_level, start_event,
@@ -19,7 +18,7 @@ class CareerSimulator:
         self.transition_matrix = transition_matrix
         self.decay = decay
         
-        # TODO data saver (stuff not working yet just place holders) Updt: Actually now it does work
+        # Initialize list for saving data for later
         self.salary_history = [self.salary]
         self.level_history = [self.seniority_level]
         self.event_history = [self.job_state]
@@ -27,7 +26,7 @@ class CareerSimulator:
     def tenure_adjustment(self, probability_matrix):
         """If staying at the same company the probability of getting promotion or new job increases """
         base_probabilities = probability_matrix[2].copy()
-        limit = probability_matrix[2][2] / -self.decay[2] # Make sure you dont get "Nega"tive money
+        limit = probability_matrix[2][2] / -self.decay[2] # Make sure you dont get negative values money
         factor = min(limit, self.tenure)
         adjusted_probabilities = base_probabilities + np.asarray(self.decay) * factor
 
@@ -38,7 +37,7 @@ class CareerSimulator:
         return adjusted_probabilities
             
     def seniority_limit(self):
-        """Trust me bro"""
+        """Makes sure that the seniority level doesn't go above the count of seniority probabilities defined in the transition matrix"""
         return min(max(self.transition_matrix), self.seniority_level)
     
     def next_step(self, probabilities):
@@ -48,7 +47,7 @@ class CareerSimulator:
         
     
     def step(self):
-        """Step function help me (I am stuck)"""
+        """Step function"""
         
         # Find senority level and match the following transition probabilities
         max_seniority = self.seniority_limit()
@@ -72,7 +71,7 @@ class CareerSimulator:
             self.next_step(probabilities)            
             
     def simulate(self, n_years):
-        """Run the career simulation for n_years (If Mette-F is still in power n→∞)"""
+        """Run the career simulation for n_years """
         for _ in range(n_years):
             self.step()
             self.year += 1
@@ -82,7 +81,8 @@ class CareerSimulator:
             self.event_history.append(int(self.job_state))
 
     def reset(self):
-        """Reset to initial state: Dunno Tue always includes this"""
+        """Reset to initial state"""
+        # TODO Either delete or actually use it
         pass
 
 ## Simulation Functions
@@ -133,7 +133,6 @@ def salary_prediction(events, levels, initial_salary, growth_factor_distribution
         if max_idx < n_years_plus_one - 2:  # If max level was reached at least 2 years before the end
             # Keep the growth factor for the max seniority year, but fix all subsequent years to 1.01
             salary_growth_factors[i, max_idx+2:] = 1.01
-    # TODO END:
     
     # Calculate cumulative salary trajectories
     salary_trajectories = initial_salary * np.cumprod(salary_growth_factors, axis=1)
@@ -141,7 +140,7 @@ def salary_prediction(events, levels, initial_salary, growth_factor_distribution
     return salary_trajectories, salary_growth_factors
 
 if __name__ == '__main__':
-    from src.transition_probabilities import transition_matrices, transition_matrices2
+    from transition_probabilities import transition_matrices, transition_matrices2
         
     # Define growth factor distributions (mean, std) for each event type
     growth_factor_distributions = {
